@@ -1,4 +1,11 @@
-const FlagMap = {
+interface IFlagMap {
+  [code: string]: {
+    img: any;
+    label: string;
+  }
+}
+
+export const FlagMap: IFlagMap = {
   ad: {
     img: require("./assets/flags/ad.png"),
     label: "Andorra"
@@ -999,6 +1006,4 @@ const FlagMap = {
     img: require("./assets/flags/zw.png"),
     label: "Zimbabwe"
   }
-}
-
-module.exports = FlagMap;
+};
