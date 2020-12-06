@@ -1,83 +1,104 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
-import { Button, Card } from 'react-native-elements';
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  Image,
+  SafeAreaView,
+} from 'react-native';
 import { FlagMap } from '../../library/FlagMap';
+import { getRandomCountry, getButtonCountries } from '../../library/methods';
+import { Button, Header } from '../../library/components';
+const win = Dimensions.get('window');
+const padding = win.width * (0.15 / 2);
 
-const getRandomCountry = () => {
-  const codes = Object.keys(FlagMap);
-  const randomIndex = Math.floor(Math.random() * codes.length);
-  const code = codes[randomIndex];
-  return code;
+interface IProps {
+  back: () => void;
 }
 
-const getButtonCountries = (flagCode: string) => {
-  const codes = [];
-  const randomIndex = Math.floor(Math.random() * 4);
-  for (let i = 0; i < 4; i++) {
-    if (i === randomIndex) {
-      codes.push(flagCode)
-    } else {
-      codes.push(getRandomCountry())
-    }
-  }
-  return codes;
-}
-
-export default function Quiz() {
+export default function Quiz(props: IProps) {
   const [flagCode, setFlagCode] = useState(() => getRandomCountry());
-  const [streak, setStreak] = useState(0);
-  const [buttonCountries, setButtonCountries] = useState(() => getButtonCountries(flagCode));
+  const [correct, setcorrect] = useState(0);
+  const [buttonCountries, setButtonCountries] = useState(() =>
+    getButtonCountries(flagCode)
+  );
 
   const handleCountryPress = (code: string) => {
     if (code === flagCode) {
-      setStreak(streak + 1);
-    } else {
-      setStreak(0);
+      setcorrect(correct + 1);
     }
     const newCountry = getRandomCountry();
-    setFlagCode(newCountry)
-    setButtonCountries(getButtonCountries(newCountry))
-  }
+    setFlagCode(newCountry);
+    setButtonCountries(getButtonCountries(newCountry));
+  };
 
   return (
-    <View style={styles.container}>
-      {
-        <Card
-          containerStyle={{marginBottom: 24}}
-        >
-          <Card.Title>Streak: {streak}</Card.Title>
-          <Card.Divider/>
-          <Image
-            source={FlagMap[flagCode].img}
-            style={{
-              width: 240,
-              height: 158,
-            }}
-          />
-        </Card>
-      }
-      <View>
-        {
-          buttonCountries.map(code => (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Header text={`Flag ${2}/30`} />
+      </View>
+      <View style={styles.body}>
+        <View style={styles.flagContainer}>
+          <Image source={FlagMap[flagCode].img} style={styles.flagImage} />
+        </View>
+        <View style={styles.buttonContainer}>
+          {buttonCountries.map((code) => (
             <Button
               key={code}
               title={FlagMap[code].label}
-              style={{marginBottom: 12, width: 274}}
-              type='outline'
-              onPress={() => handleCountryPress(code)}
+              handlePress={() => handleCountryPress(code)}
             />
-          ))
-        }
+          ))}
+        </View>
       </View>
-    </View>
+      <View style={styles.footer}>
+        <Button title={'Quit & Exit'} handlePress={props.back} />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  // Layout
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    justifyContent: 'center',
+    backgroundColor: '#10152a',
+  },
+  header: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: padding,
+    // backgroundColor: 'pink',
+  },
+  body: {
+    flex: 10,
+  },
+  footer: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingLeft: padding,
+  },
+
+  // Flag
+  flagContainer: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  flagImage: {
+    width: win.width * 0.85,
+    borderRadius: 20,
+    backgroundColor: 'white',
+  },
+
+  // Buttons
+  buttonContainer: {
+    flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    paddingLeft: padding,
+    paddingRight: padding,
   },
 });
