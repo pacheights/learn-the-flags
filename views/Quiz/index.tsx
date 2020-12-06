@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  View,
-  Image,
-  SafeAreaView,
-} from 'react-native';
+import { StyleSheet, View, Image, Text, SafeAreaView } from 'react-native';
 import { FlagMap } from '../../library/FlagMap';
 import { getRandomCountry, getButtonCountries } from '../../library/methods';
-import { Button, Header } from '../../library/components';
-const win = Dimensions.get('window');
-const padding = win.width * (0.15 / 2);
+import { Button } from '../../library/components';
+import { padding, window } from '../../library/constants';
 
 interface IProps {
   back: () => void;
@@ -19,6 +12,7 @@ interface IProps {
 export default function Quiz(props: IProps) {
   const [flagCode, setFlagCode] = useState(() => getRandomCountry());
   const [correct, setcorrect] = useState(0);
+  const [questionNum, setQuestionNum] = useState(1);
   const [buttonCountries, setButtonCountries] = useState(() =>
     getButtonCountries(flagCode)
   );
@@ -28,6 +22,7 @@ export default function Quiz(props: IProps) {
       setcorrect(correct + 1);
     }
     const newCountry = getRandomCountry();
+    setQuestionNum((num) => num + 1);
     setFlagCode(newCountry);
     setButtonCountries(getButtonCountries(newCountry));
   };
@@ -35,7 +30,12 @@ export default function Quiz(props: IProps) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Header text={`Flag ${2}/30`} />
+        <Text style={styles.pageHeaderText}>Flag Quiz</Text>
+        <View style={styles.score}>
+          <Text style={styles.questionText}>Question</Text>
+          <Text style={styles.questionNumber}>{questionNum}</Text>
+          <Text style={styles.pageHeaderText}>/30</Text>
+        </View>
       </View>
       <View style={styles.body}>
         <View style={styles.flagContainer}>
@@ -69,10 +69,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingLeft: padding,
-    // backgroundColor: 'pink',
   },
   body: {
-    flex: 10,
+    flex: 7,
   },
   footer: {
     flex: 1,
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   flagImage: {
-    width: win.width * 0.85,
+    width: window.width * 0.85,
     borderRadius: 20,
     backgroundColor: 'white',
   },
@@ -100,5 +99,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: padding,
     paddingRight: padding,
+  },
+
+  // Score
+  score: {
+    flexDirection: 'row',
+  },
+  pageHeaderText: {
+    color: '#2c3046',
+    fontSize: 20,
+    marginBottom: 8,
+    letterSpacing: 1.4,
+  },
+  questionText: {
+    letterSpacing: 0.8,
+    color: '#bfc0c5',
+    fontWeight: '500',
+    fontSize: 28,
+    fontFamily: 'Futura',
+  },
+  questionNumber: {
+    fontSize: 32,
+    marginLeft: 12,
+    marginTop: -2,
+    color: '#d6d8da',
+    fontFamily: 'Futura',
   },
 });

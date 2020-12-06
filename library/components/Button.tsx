@@ -20,7 +20,7 @@ export const Button = (props: IProps) => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    marginBottom: 16,
+    marginBottom: 22,
     borderColor: '#aab2ba',
     borderWidth: 1,
     borderRadius: 12,
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#aab2ba',
-    fontSize: 18,
+    fontFamily: 'Helvetica',
+    fontSize: 16,
   },
 });

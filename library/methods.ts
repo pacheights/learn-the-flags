@@ -15,7 +15,7 @@ export const getButtonCountries = (flagCode: string) => {
       codes.push(flagCode);
     } else {
       let newCountry = getRandomCountry();
-      while (newCountry === flagCode && codes.includes(newCountry)) {
+      while (newCountry === flagCode || codes.includes(newCountry)) {
         newCountry = getRandomCountry();
       }
       codes.push(newCountry);
