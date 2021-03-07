@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Text, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
 import { FlagMap } from '../../library/FlagMap';
 import { getRandomCountry, getButtonCountries } from '../../library/methods';
 import { Button } from '../../library/components';
@@ -52,7 +59,9 @@ export default function Quiz(props: IProps) {
         </View>
       </View>
       <View style={styles.footer}>
-        <Button title={'Quit & Exit'} handlePress={props.back} />
+        <TouchableOpacity onPress={props.back}>
+          <Text style={{ color: '#bfc0c5' }}>Quit Quiz</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

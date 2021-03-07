@@ -24,7 +24,7 @@ export default function App() {
         <PricingCard
           containerStyle={{
             borderRadius: 8,
-            backgroundColor: '#bfc0c5',
+            backgroundColor: '#FFFAF2',
           }}
           color='#2c3046'
           title='Total Flags Learned'
@@ -35,7 +35,7 @@ export default function App() {
         <PricingCard
           containerStyle={{
             borderRadius: 8,
-            backgroundColor: '#bfc0c5',
+            backgroundColor: '#FFFAF2',
           }}
           color='#2c3046'
           title='Quiz Stats'
